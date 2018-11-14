@@ -8,13 +8,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //final wordPair = WordPair.random();
     return MaterialApp(
-      title: 'Flutter Virgin',
+      title: 'Magic Word Selector',
       theme: new ThemeData(
         primaryColor: Colors.white,
+        dividerColor: Colors.black87,
       ),
       home: RandomWords(),
     );
   }
+}
+
+class RandomWords extends StatefulWidget {
+  @override
+  RandomWordsState createState() => new RandomWordsState();
 }
 
 class RandomWordsState extends State<RandomWords> {
@@ -33,7 +39,18 @@ class RandomWordsState extends State<RandomWords> {
           new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
         ],
       ),
-      body: _buildSuggestions(),
+      body: new Stack(
+          children: <Widget>[
+            new Container(
+              decoration: new BoxDecoration(
+                image: new DecorationImage(
+                  image: new AssetImage("images/background.jpg"),
+                  fit: BoxFit.cover,),
+                ),
+            ),
+            _buildSuggestions(),
+          ],
+      )
     );
   }
 
@@ -53,17 +70,17 @@ class RandomWordsState extends State<RandomWords> {
           );
           final List<Widget> divided = ListTile
               .divideTiles(
-            context: context,
-            tiles: tiles,
-          )
+                context: context,
+                tiles: tiles,
+              )
               .toList();
 
-          return new Scaffold(         // Add 6 lines from here...
+          return new Scaffold(
             appBar: new AppBar(
               title: const Text('Saved Suggestions'),
             ),
             body: new ListView(children: divided),
-          );                           // ... to here.
+          );
         },
       ),
     );
@@ -120,9 +137,4 @@ class RandomWordsState extends State<RandomWords> {
       },
     );
   }
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() => new RandomWordsState();
 }
