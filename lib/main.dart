@@ -26,7 +26,6 @@ class RandomWords extends StatefulWidget {
 class RandomWordsState extends State<RandomWords> {
   final List<WordPair> _suggestions = <WordPair>[];
   final Set<WordPair> _saved = new Set<WordPair>();
-  final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +43,11 @@ class RandomWordsState extends State<RandomWords> {
             new Container(
               decoration: new BoxDecoration(
                 image: new DecorationImage(
-                  image: new AssetImage("images/background.jpg"),
-                  fit: BoxFit.cover,),
+                  image: new AssetImage("assets/images/proper_black.gif"),
+                  fit: BoxFit.fitWidth,
+                  colorFilter: ColorFilter.mode(Color.fromRGBO(255, 255, 255, 0.2), BlendMode.modulate),
                 ),
+              ),
             ),
             _buildSuggestions(),
           ],
@@ -63,7 +64,7 @@ class RandomWordsState extends State<RandomWords> {
               return new ListTile(
                 title: new Text(
                   pair.asPascalCase,
-                  style: _biggerFont,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                 ),
               );
             },
@@ -79,7 +80,20 @@ class RandomWordsState extends State<RandomWords> {
             appBar: new AppBar(
               title: const Text('Saved Suggestions'),
             ),
-            body: new ListView(children: divided),
+            body: new Stack(
+                children: <Widget>[
+                  new Container(
+                    decoration: new BoxDecoration(
+                      image: new DecorationImage(
+                        image: new AssetImage("assets/images/proper_black.gif"),
+                        fit: BoxFit.fitWidth,
+                        colorFilter: ColorFilter.mode(Color.fromRGBO(255, 255, 255, 0.2), BlendMode.modulate),
+                      ),
+                    ),
+                  ),
+                  new ListView(children: divided),
+                ],
+            )
           );
         },
       ),
@@ -120,7 +134,7 @@ class RandomWordsState extends State<RandomWords> {
     return ListTile(
       title: Text(
         pair.asPascalCase,
-        style: _biggerFont,
+        style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
       ),
       trailing: new Icon(
         alreadySaved ? Icons.favorite : Icons.favorite_border,
