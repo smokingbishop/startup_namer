@@ -26,6 +26,7 @@ class RandomWords extends StatefulWidget {
 class RandomWordsState extends State<RandomWords> {
   final List<WordPair> _suggestions = <WordPair>[];
   final Set<WordPair> _saved = new Set<WordPair>();
+  final Set<WordPair> _liked = new Set<WordPair>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,10 @@ class RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: Text('Startup Name Generator'),
         actions: <Widget>[
-          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
+          new IconButton(
+              icon: const Icon(Icons.list),
+              onPressed: _pushSaved,
+          ),
         ],
       ),
       body: new Stack(
@@ -45,7 +49,10 @@ class RandomWordsState extends State<RandomWords> {
                 image: new DecorationImage(
                   image: new AssetImage("assets/images/proper_black.gif"),
                   fit: BoxFit.fitWidth,
-                  colorFilter: ColorFilter.mode(Color.fromRGBO(255, 255, 255, 0.2), BlendMode.modulate),
+                  colorFilter: ColorFilter.mode(
+                      Color.fromRGBO(255, 255, 255, 0.2),
+                      BlendMode.modulate,
+                  ),
                 ),
               ),
             ),
@@ -64,8 +71,9 @@ class RandomWordsState extends State<RandomWords> {
               return new ListTile(
                 title: new Text(
                   pair.asPascalCase,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic ),
                 ),
+                dense: true,
               );
             },
           );
@@ -87,7 +95,10 @@ class RandomWordsState extends State<RandomWords> {
                       image: new DecorationImage(
                         image: new AssetImage("assets/images/proper_black.gif"),
                         fit: BoxFit.fitWidth,
-                        colorFilter: ColorFilter.mode(Color.fromRGBO(255, 255, 255, 0.2), BlendMode.modulate),
+                        colorFilter: ColorFilter.mode(
+                            Color.fromRGBO(255, 255, 255, 0.2),
+                            BlendMode.modulate,
+                        ),
                       ),
                     ),
                   ),
@@ -131,24 +142,44 @@ class RandomWordsState extends State<RandomWords> {
 
   Widget _buildRow(WordPair pair) {
     final bool alreadySaved = _saved.contains(pair);
+    final bool alreadyLiked = _liked.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
       ),
-      trailing: new Icon(
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
-      ),
-      onTap: () {
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },
+      dense: true,
+      trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget> [
+            IconButton(
+              icon: Icon(Icons.thumb_up),
+              color: alreadyLiked ? Colors.green : Colors.black12,
+              onPressed: () {
+                setState(() {
+                  if (alreadyLiked) {
+                    _liked.remove(pair);
+                  } else {
+                    _liked.add(pair);
+                  }
+                } );
+              },
+            ),
+            IconButton(
+              icon: Icon(alreadySaved ? Icons.favorite : Icons.favorite_border),
+              color: alreadySaved ? Colors.red : null,
+              onPressed: () {
+                setState(() {
+                  if (alreadySaved) {
+                    _saved.remove(pair);
+                  } else {
+                    _saved.add(pair);
+                  }
+                } );
+              },
+            ),
+          ]
+      )
     );
   }
 }
