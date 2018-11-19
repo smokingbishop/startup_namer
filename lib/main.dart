@@ -36,14 +36,21 @@ class RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: Text('Startup Name Generator'),
         actions: <Widget>[
-          new IconButton(
-              icon: const Icon(Icons.list),
-              onPressed: _pushSaved,
+          IconButton(
+              icon: const Icon(Icons.thumb_up),
+              color: Colors.green,
+              onPressed: () { _showList('Likes', _liked); },
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            color: Colors.red,
+            onPressed: () { _showList('Favorites', _saved); },
           ),
         ],
       ),
       body: new Stack(
           children: <Widget>[
+            //background image
             new Container(
               decoration: new BoxDecoration(
                 image: new DecorationImage(
@@ -62,12 +69,11 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
-  void _pushSaved() {
+  void _showList(String _title, Set<WordPair> _list) {
     Navigator.of(context).push(
       new MaterialPageRoute<void>(
         builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _saved.map(
-                (WordPair pair) {
+          final Iterable<ListTile> tiles = _list.map( (WordPair pair) {
               return new ListTile(
                 title: new Text(
                   pair.asPascalCase,
@@ -86,10 +92,11 @@ class RandomWordsState extends State<RandomWords> {
 
           return new Scaffold(
             appBar: new AppBar(
-              title: const Text('Saved Suggestions'),
+              title: Text(_title),
             ),
             body: new Stack(
                 children: <Widget>[
+                  //background image
                   new Container(
                     decoration: new BoxDecoration(
                       image: new DecorationImage(
