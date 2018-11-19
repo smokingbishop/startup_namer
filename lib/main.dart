@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/rendering.dart';
 
-void main() => runApp(MyApp());
+void main() {
+//  debugPaintSizeEnabled=true;
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final wordPair = WordPair.random();
     return MaterialApp(
-      title: 'Magic Word Selector',
+      title: 'Magic Password Selector',
       theme: new ThemeData(
         primaryColor: Colors.white,
         dividerColor: Colors.black87,
@@ -34,7 +39,7 @@ class RandomWordsState extends State<RandomWords> {
     //return Text(wordPair.asPascalCase);
     return Scaffold (
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text('Magic Password Selector'),
         actions: <Widget>[
           IconButton(
               icon: const Icon(Icons.thumb_up),
@@ -64,6 +69,10 @@ class RandomWordsState extends State<RandomWords> {
               ),
             ),
             _buildSuggestions(),
+            Banner(
+              message: "Alpha",
+              location: BannerLocation.topStart,
+            ),
           ],
       )
     );
